@@ -27,7 +27,6 @@ import java.util.Set;
 
 /**
  * 외부 DB 의 데이터를 사용하여 인증, 사용자 관리등을 구현
- * @author osc
  *
  */
 //StateFul Bean 으로 선언
@@ -67,7 +66,12 @@ CredentialInputUpdater  {
 
 	@Override
 	public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-		return false;
+
+		System.out.println("disableCredentialType\n\n");
+		System.out.println(user.toString());
+		System.out.println("credentialType : " + input);
+		System.out.println("disableCredentialType\n\n");
+		return true;
 	}
 
 	/**
@@ -75,6 +79,10 @@ CredentialInputUpdater  {
 	 */
 	@Override
 	public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
+		System.out.println("disableCredentialType\n\n");
+		System.out.println(user.toString());
+		System.out.println(credentialType);
+		System.out.println("disableCredentialType\n\n");
 	}
 
 	/**
@@ -104,6 +112,7 @@ CredentialInputUpdater  {
 
 	@Override
 	public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
+		System.out.println("\n\n isConfiguredFor: " + credentialType + "\n\n");
 		return false;
 	}
 
@@ -253,8 +262,13 @@ CredentialInputUpdater  {
 
 	@Override
 	public UserModel getUserByEmail(String email, RealmModel realm) {
-		System.out.println("getUserByEmail  \n\n");
-		return null;
+		System.out.println("\ngetUserByEmail: " + email + "\n");
+
+		UserEntity userInfo = entityManager.createNamedQuery("findByUserEmail", UserEntity.class)
+				.setParameter("userEmail", email)
+				.getResultList().stream().findFirst().orElse(null);
+
+		return userInfo == null ? null : new CustomUserAdapter(session, realm, model, userInfo);
 	}
 
 }
