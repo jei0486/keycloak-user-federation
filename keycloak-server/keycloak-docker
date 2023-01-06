@@ -1,0 +1,8 @@
+# keycloak mariadb docker cmd
+docker run --name keycloak-sso -d  -p 8080:8080 --restart=unless-stopped -e DB_VENDOR=mariadb -e DB_ADDR=host.docker.internal -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=osckorea! \
+-e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v /mnt/c/_DEV/keycloak-config:/data quay.io/keycloak/keycloak:15.0.2
+
+
+#
+docker volume create keycloakvolume
+docker run --rm -v keycloakvolume:/data -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin assamoa/keycloak:15.0.2

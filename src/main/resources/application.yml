@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://host.docker.internal:3306/sampledb
+    username: root
+    password: osckorea!
+    driverClassName: org.mariadb.jdbc.MySQLDataSource
+  jpa:
+    database: mariadb
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
